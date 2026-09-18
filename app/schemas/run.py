@@ -28,8 +28,13 @@ class StepEvent(BaseModel):
 
 class RunRequest(BaseModel):
     goal: str = Field(..., example="Filter for blue shoes and complete checkout")
-    target_url: str = Field(..., example="http://localhost:8000/mock_apps/sample_ecommerce/v1_good.html")
+    target_url: Optional[str] = Field(default=None, example="http://localhost:8000/mock_apps/sample_ecommerce/v1_good.html")
+    url: Optional[str] = Field(default=None, example="http://localhost:8000/mock_apps/sample_ecommerce/v1_good.html")
     platform: str = Field(default="chrome", example="chrome")
+
+    @property
+    def resolved_target_url(self) -> str:
+        return self.target_url or self.url or "http://localhost:8000/mock_apps/sample_ecommerce/v1_good.html"
 
 class RunResponse(BaseModel):
     run_id: str

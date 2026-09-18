@@ -23,7 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount API routes
+# Mount API routes — runs router owns its own prefixes (/api/runs + /api/run aliases)
 app.include_router(runs.router, prefix=settings.API_V1_STR)
 app.include_router(targets.router, prefix=settings.API_V1_STR)
 app.include_router(benchmarks.router, prefix=settings.API_V1_STR)
