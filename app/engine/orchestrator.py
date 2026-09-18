@@ -2,6 +2,7 @@ import os
 import time
 import asyncio
 from typing import List, Dict, Any, Optional, Callable
+import numpy as np
 from PIL import Image
 
 from app.core.logger import logger

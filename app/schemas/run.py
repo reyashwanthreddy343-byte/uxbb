@@ -10,10 +10,13 @@ class BoundingBox(BaseModel):
 class DetectedElement(BaseModel):
     id: int
     bbox: BoundingBox
-    element_class: str = Field(..., alias="class")
+    element_class: str = Field(default="control", alias="class")
     confidence: float
     center_x: int
     center_y: int
+
+    class Config:
+        populate_by_name = True
 
 class StepEvent(BaseModel):
     step_number: int
