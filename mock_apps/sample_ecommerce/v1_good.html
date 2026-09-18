@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexGear - Premium Athletic Shoes (v1 Good Baseline)</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 2rem; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid #334155; padding-bottom: 1rem; }
+    .logo { font-size: 1.5rem; font-weight: 700; color: #38bdf8; }
+    .filters { display: flex; gap: 1rem; margin-bottom: 2rem; background: var(--card-bg); padding: 1rem; border-radius: 8px; }
+    .filter-btn { background: #334155; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; }
+    .filter-btn.active { background: var(--primary); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .card { background: var(--card-bg); border-radius: 12px; padding: 1.5rem; border: 1px solid #334155; display: flex; flex-direction: column; }
+    .card-img { width: 100%; height: 180px; background: #0284c7; border-radius: 8px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+    .card h3 { margin-bottom: 0.5rem; }
+    .price { font-size: 1.25rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; }
+    .btn { background: var(--primary); color: white; border: none; padding: 0.75rem; border-radius: 6px; font-weight: 600; cursor: pointer; text-align: center; }
+    .btn:hover { background: var(--primary-hover); }
+    /* Checkout Modal */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); align-items: center; justify-content: center; }
+    .modal.open { display: flex; }
+    .modal-content { background: var(--card-bg); padding: 2rem; border-radius: 12px; width: 400px; border: 1px solid #334155; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-muted); }
+    .form-group input { width: 100%; padding: 0.75rem; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: white; }
+    .success-badge { display: none; background: #065f46; color: #6ee7b7; padding: 1rem; border-radius: 8px; text-align: center; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">ApexGear Athletics</div>
+      <div id="cart-indicator">Cart: 0 items</div>
+    </header>
+
+    <div class="filters">
+      <button class="filter-btn active" id="btn-filter-all">All Shoes</button>
+      <button class="filter-btn" id="btn-filter-blue">Blue Running Shoes</button>
+      <button class="filter-btn" id="btn-filter-under100">Under $100</button>
+    </div>
+
+    <div class="grid" id="product-grid">
+      <div class="card" id="product-1" data-color="blue" data-price="89">
+        <div class="card-img">Blue Runner Pro</div>
+        <h3>Blue Speed Streak</h3>
+        <p class="price">$89.00</p>
+        <button class="btn" id="btn-buy-now" onclick="openCheckout('Blue Speed Streak', 89)">Add to Cart & Checkout</button>
+      </div>
+      <div class="card" id="product-2" data-color="red" data-price="140">
+        <div class="card-img" style="background:#dc2626;">Red Trail X</div>
+        <h3>Red Mountain Max</h3>
+        <p class="price">$140.00</p>
+        <button class="btn" onclick="openCheckout('Red Mountain Max', 140)">Add to Cart & Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="checkout-modal">
+    <div class="modal-content">
+      <h2 style="margin-bottom: 1rem;">Guest Checkout</h2>
+      <div class="form-group">
+        <label for="input-email">Email Address</label>
+        <input type="email" id="input-email" placeholder="runner@example.com" value="test@test.com">
+      </div>
+      <div class="form-group">
+        <label for="input-address">Delivery Address</label>
+        <input type="text" id="input-address" placeholder="123 Marathon St" value="123 Running Lane">
+      </div>
+      <button class="btn" id="btn-complete-order" style="width: 100%;" onclick="submitOrder()">Complete Order</button>
+      <div class="success-badge" id="order-success">✓ Order Placed Successfully! (Confirmation #AG-9821)</div>
+    </div>
+  </div>
+
+  <script>
+    function openCheckout(title, price) {
+      document.getElementById('checkout-modal').classList.add('open');
+      document.getElementById('cart-indicator').innerText = 'Cart: 1 item ($' + price + ')';
+    }
+    function submitOrder() {
+      document.getElementById('btn-complete-order').style.display = 'none';
+      document.getElementById('order-success').style.display = 'block';
+    }
+    document.getElementById('btn-filter-blue').addEventListener('click', function() {
+      document.querySelectorAll('.card').forEach(c => {
+        if (c.dataset.color !== 'blue') c.style.display = 'none';
+        else c.style.display = 'flex';
+      });
+      this.classList.add('active');
+      document.getElementById('btn-filter-all').classList.remove('active');
+    });
+  </script>
+</body>
+</html>

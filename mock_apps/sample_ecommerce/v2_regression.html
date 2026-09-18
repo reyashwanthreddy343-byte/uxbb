@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexGear - Premium Athletic Shoes (v2 Injected Regression)</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 2rem; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid #334155; padding-bottom: 1rem; }
+    .logo { font-size: 1.5rem; font-weight: 700; color: #38bdf8; }
+    .filters { display: flex; gap: 1rem; margin-bottom: 2rem; background: var(--card-bg); padding: 1rem; border-radius: 8px; }
+    .filter-btn { background: #334155; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; }
+    .filter-btn.active { background: var(--primary); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .card { background: var(--card-bg); border-radius: 12px; padding: 1.5rem; border: 1px solid #334155; display: flex; flex-direction: column; }
+    .card-img { width: 100%; height: 180px; background: #0284c7; border-radius: 8px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+    .card h3 { margin-bottom: 0.5rem; }
+    .price { font-size: 1.25rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; }
+    .btn { background: var(--primary); color: white; border: none; padding: 0.75rem; border-radius: 6px; font-weight: 600; cursor: pointer; text-align: center; }
+    
+    /* INJECTED REGRESSION 1: Sudden disruptive modal layout shift & occluded tiny button */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; }
+    .modal.open { display: flex; }
+    .modal-content { background: var(--card-bg); padding: 2rem; border-radius: 12px; width: 420px; border: 1px solid #ef4444; position: relative; }
+    
+    /* INJECTED REGRESSION 2: Circular navigation dead-end loop */
+    .promo-banner { background: #7c2d12; color: #fed7aa; padding: 0.75rem; border-radius: 6px; margin-bottom: 1rem; font-size: 0.85rem; cursor: pointer; }
+    
+    /* INJECTED REGRESSION 3: Tiny, occluded submit button with minimal contrast & zero accessible label */
+    .btn-hidden-tiny { font-size: 8px; padding: 2px 4px; background: #334155; color: #475569; border: none; border-radius: 2px; cursor: pointer; position: absolute; bottom: 8px; right: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">ApexGear Athletics (v2 Regression Build)</div>
+      <div id="cart-indicator">Cart: 0 items</div>
+    </header>
+
+    <div class="filters">
+      <button class="filter-btn active" id="btn-filter-all">All Shoes</button>
+      <button class="filter-btn" id="btn-filter-blue">Blue Running Shoes</button>
+      <button class="filter-btn" id="btn-filter-under100">Under $100</button>
+    </div>
+
+    <div class="grid" id="product-grid">
+      <div class="card" id="product-1" data-color="blue">
+        <div class="card-img">Blue Runner Pro</div>
+        <h3>Blue Speed Streak</h3>
+        <p class="price">$89.00</p>
+        <!-- Injected regression: clicking opens a broken loop modal with friction -->
+        <button class="btn" id="btn-buy-now" onclick="openCheckoutLoop()">Add to Cart & Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="checkout-modal">
+    <div class="modal-content">
+      <h2 style="margin-bottom: 0.5rem; color: #f87171;">⚠️ Checkout Verification Step</h2>
+      <div class="promo-banner" onclick="circularLoop()">
+        🔄 Click here to verify promo code (Circular Loop Trap)
+      </div>
+      <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 2rem;">
+        Complete checkout requires confirming newsletter terms below. Notice: Primary checkout button has shifted and lost contrast.
+      </p>
+      <!-- Tiny occluded button causing friction/backtracks -->
+      <button class="btn-hidden-tiny" id="btn-tiny-submit" onclick="submitBuggyOrder()">Submit Order</button>
+      <div id="order-status" style="display:none; color:#10b981; margin-top: 1rem;">Order Completed after loop</div>
+    </div>
+  </div>
+
+  <script>
+    let loopCount = 0;
+    function openCheckoutLoop() {
+      document.getElementById('checkout-modal').classList.add('open');
+    }
+    function circularLoop() {
+      loopCount++;
+      alert('Loop ' + loopCount + ': Redirecting back to verification page...');
+    }
+    function submitBuggyOrder() {
+      document.getElementById('order-status').style.display = 'block';
+      document.getElementById('order-status').innerText = '✓ Finally completed after severe friction!';
+    }
+  </script>
+</body>
+</html>
