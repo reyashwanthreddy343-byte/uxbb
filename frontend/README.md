@@ -1,76 +1,47 @@
-# Build a Next
+# P8 — Autonomous Agentic Black-Box UI/UX & Accessibility Testing Framework
+### Frontend Observability Console (`frontend`)
 
-Build a Next.js (TypeScript) + Tailwind CSS + shadcn/ui page for an AI UX-testing tool.
+High-performance developer observatory built with React 19, Vite, TanStack Router, and Tailwind CSS. Directly connects to the Python FastAPI black-box testing engine via REST and WebSockets.
 
-Use .tsx components throughout, no vanilla JS files. This is the "Run" page — the primary
+---
 
-demo screen. This page talks ONLY to a Python/FastAPI backend over plain REST + WebSocket
+## Key Features
 
-JSON (given below) — don't assume any server-side Python code runs inside this Next.js
+1. **Goal & Target Dispatcher**
+   - Natural language goal input, black-box target URL, and platform selector (`Chrome`, `Firefox`, `Android`).
+   - Quick 1-click demo presets for judging:
+     - `✅ Baseline (ApexGear v1)` — Clean checkout baseline.
+     - `⚠️ Injected Regression (ApexGear v2)` — Injected layout shifts, circular loops, and occluded targets.
 
-project, just fetch()/WebSocket() calls against the URLs below.
+2. **Visual Trajectory Replay Player**
+   - Scrub and play through the autonomous agent's visual exploration frame by frame.
+   - SVG vector cursor overlays indicating coordinate clicks, typing events, and view scrolls.
+   - Dynamic perceptual friction heatmap overlay color-graded from low friction (green) to critical friction (red).
 
+3. **Live Signal Findings Sidebar**
+   - Real-time WebSocket streaming of detected friction events, loop traps, and layout drifts.
+   - Interactive jump-to-step on finding selection.
+   - Grounded explanations narrated strictly from model scores.
 
+4. **Comprehensive Diagnostic Scorecard (`/report/{run_id}`)**
+   - Model 4 flow regression detection breakdown (anomaly distance, backtrack delta, duration inflation).
+   - FAISS failure memory speedup curve & recall metrics.
+   - Root-cause cluster categorization.
+   - Standard accessibility tree violation breakdown.
 
+---
 
-FEATURES:
+## Getting Started
 
-1. A goal input form: natural-language goal textbox, target URL field, platform selector
+### Prerequisites
+- Node.js (v18+) or Bun
 
-   (Chrome/Firefox/Android). Submitting POSTs to /api/run and receives { run_id }.
+### Running Locally
 
-2. On submit, open a WebSocket to ws://.../ws/run/{run_id}. As "step" messages arrive,
-
-   push each into a live-updating trajectory.
-
-3. VISUAL TRAJECTORY REPLAY: a video-scrubber-style player showing the sequence of
-
-   screenshots (step.screenshot_url) with an animated cursor dot that moves to
-
-   step.action.target_bbox and shows a click/type/scroll indicator at each step. Play,
-
-   pause, scrub, and step-forward/back controls, like a screen-recording player.
-
-4. DETECTION & FRICTION HEATMAP: overlay step.elements as bounding boxes on the current
-
-   screenshot frame, color-graded from green (low step.friction_score) to red (high). A
-
-   toggle to show/hide this overlay layer independent of playback.
-
-5. A live sidebar log listing each "finding" WebSocket message as it arrives, with
-
-   severity badge and confidence %, updating in real time during the run.
-
-6. When a "done" message arrives, show a "View Full Report →" button linking to
-
-   /report/{run_id}.
-
-
-
-
-Design: dark-mode-first, monospace accents for technical numbers, feels like a
-
-professional dev-tools / observability dashboard (think Playwright Trace Viewer or
-
-Sentry), not a consumer app. Make bounding box overlays crisp SVG, not blurry CSS boxes.
-
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/7a13f5e0-410e-4a97-b3f8-27e345ef9c99).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+```bash
+cd frontend
+npm install    # or bun install
+npm run dev    # or bun dev
 ```
+
+The web console will start on `http://localhost:5173` and automatically connect to the backend server running at `http://localhost:8000`.
