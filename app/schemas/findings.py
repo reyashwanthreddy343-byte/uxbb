@@ -39,6 +39,7 @@ class RunReport(BaseModel):
     findings: List[Finding]
     regression: RegressionSummary
     failure_memory: FailureMemoryStats
+    cross_platform_consistency: Optional[Dict[str, Any]] = None
     a11y_violations: List[AccessibilityViolation] = []
     created_at: float
     completed_at: Optional[float] = None
